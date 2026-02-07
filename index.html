@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Jaanu</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Quicksand',sans-serif;
+}
+
+body{
+    height:100vh;
+    background:linear-gradient(135deg,#ff7aa2,#ffc0d3,#ffe3ec);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+/* Background Floating Hearts */
+
+.bg-heart{
+    position:absolute;
+    font-size:18px;
+    animation:floatBG 7s linear infinite;
+    opacity:0.5;
+    pointer-events:none;
+    z-index:1;
+}
+
+@keyframes floatBG{
+    0%{
+        transform:translateY(110vh) scale(0.5);
+        opacity:0;
+    }
+    20%{opacity:0.5;}
+    100%{
+        transform:translateY(-10vh) scale(1.4);
+        opacity:0;
+    }
+}
+
+/* Main Card */
+
+.container{
+    width:400px;
+    background:white;
+    border-radius:25px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.25);
+    animation:pop 1s ease;
+    position:relative;
+    z-index:5;
+}
+
+@keyframes pop{
+    from{transform:scale(0.5);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+
+.hidden{display:none;}
+
+h1{
+    color:#ff3366;
+    margin-bottom:10px;
+}
+
+p{
+    color:#444;
+    margin-bottom:20px;
+}
+
+/* Buttons */
+
+button{
+    background:#ff3366;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:25px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+/* Options */
+
+.option{
+    padding:12px;
+    border:2px solid #ff3366;
+    border-radius:20px;
+    margin:10px 0;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.option:hover{
+    background:#ff3366;
+    color:white;
+}
+
+.correct{
+    background:#4CAF50!important;
+    color:white;
+    border-color:#4CAF50;
+}
+
+.wrong{
+    background:#f44336!important;
+    color:white;
+    border-color:#f44336;
+}
+
+/* Proposal Buttons */
+
+.btn-group{
+    display:flex;
+    justify-content:space-around;
+    margin-top:20px;
+}
+
+#noBtn{
+    background:#999;
+    position:relative;
+    transition:0.2s;
+}
+
+/* Memory Cards */
+
+.memory{
+    background:#ffe3ec;
+    padding:15px;
+    border-radius:15px;
+    margin:10px 0;
+    animation:fade 1s ease;
+}
+
+@keyframes fade{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+/* Final Cute Page */
+
+.final-card{
+    background:linear-gradient(135deg,#ffb6c9,#ffe0eb);
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(255,51,102,0.4);
+    animation:pop 1s ease;
+}
+
+.final-title{
+    font-size:28px;
+    color:#ff1f5a;
+}
+
+.glow{
+    animation:glow 1.5s infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 5px #ff7aa2;}
+    to{ text-shadow:0 0 20px #ff3366;}
+}
+
+/* Extra Floating Hearts (Final Page) */
+
+.floating-heart{
+    position:absolute;
+    font-size:22px;
+    animation:floatUp 6s linear infinite;
+    opacity:0.7;
+    pointer-events:none;
+    z-index:2;
+}
+
+@keyframes floatUp{
+    0%{
+        transform:translateY(100vh) scale(0.5);
+        opacity:0;
+    }
+    20%{opacity:1;}
+    100%{
+        transform:translateY(-10vh) scale(1.4);
+        opacity:0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Background Hearts Script -->
+<script>
+for(let i=0;i<30;i++){
+    let h=document.createElement("div");
+    h.className="bg-heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDelay=Math.random()*7+"s";
+    h.style.fontSize=(14+Math.random()*12)+"px";
+    document.body.appendChild(h);
+}
+</script>
+
+<div class="container">
+
+<!-- Welcome -->
+
+<div id="welcome">
+
+    <h1>Hey Jaanu</h1>
+    <p>I made something special for you.</p>
+
+    <button onclick="start()">Start</button>
+
+</div>
+
+<!-- Quiz -->
+
+<div id="quiz" class="hidden">
+
+    <h1 id="qno"></h1>
+    <p id="question"></p>
+
+    <div id="options"></div>
+
+</div>
+
+<!-- Proposal -->
+
+<div id="proposal" class="hidden">
+
+    <h1>One Question Left</h1>
+
+    <p>
+    After everything…  
+    will you be my Valentine?
+    </p>
+
+    <div class="btn-group">
+
+        <button id="yesBtn" onclick="yes()">Yes</button>
+        <button id="noBtn" onmouseover="runAway()">No</button>
+
+    </div>
+
+</div>
+
+<!-- Final -->
+
+<div id="final" class="hidden final-card">
+
+    <h1 class="final-title glow">
+        Happy Valentine’s Day 💖
+    </h1>
+
+    <p style="font-size:18px;margin-top:10px;">
+        You said yes… and I’m the happiest person alive 😭❤️
+    </p>
+
+    <div class="memory">🌸 Our first meet: 18 December</div>
+    <div class="memory">💕 My favourite name for you: Jaanu</div>
+    <div class="memory">💗 My favourite person: You</div>
+    <div class="memory">💍 My promise: Always choose you</div>
+
+    <p style="margin-top:15px;font-size:17px;">
+        No matter the distance,<br>
+        it’s always you and me 💫
+    </p>
+
+    <h2 style="color:#ff3366;margin-top:15px;">
+        Forever Yours 😘💞
+    </h2>
+
+</div>
+
+</div>
+
+<!-- Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+
+/* Questions */
+
+let questions=[
+
+{q:"When did we first meet?",o:["18 December","14 February","1 January"],a:0},
+{q:"What is my favourite name for you?",o:["Baby","Jaanu","Love"],a:1},
+{q:"Who matters the most to me?",o:["Friends","Family","You"],a:2},
+{q:"What do I miss the most?",o:["Food","Sleep","You"],a:2},
+{q:"Who am I choosing every day?",o:["Anyone","You","No one"],a:1}
+
+];
+
+let current=0;
+
+/* Start */
+
+function start(){
+    document.getElementById("welcome").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+    load();
+}
+
+/* Load */
+
+function load(){
+
+    let q=questions[current];
+
+    document.getElementById("qno").innerText=
+    `Question ${current+1} / ${questions.length}`;
+
+    document.getElementById("question").innerText=q.q;
+
+    let html="";
+
+    q.o.forEach((opt,i)=>{
+        html+=`
+        <div class="option" onclick="check(this,${i})">
+        ${opt}
+        </div>
+        `;
+    });
+
+    document.getElementById("options").innerHTML=html;
+}
+
+/* Check */
+
+function check(el,i){
+
+    let q=questions[current];
+
+    if(i===q.a){
+
+        el.classList.add("correct");
+
+        confetti({
+            particleCount:120,
+            spread:80,
+            origin:{y:0.6}
+        });
+
+        setTimeout(()=>{ next(); },700);
+
+    }else{
+        el.classList.add("wrong");
+    }
+}
+
+/* Next */
+
+function next(){
+
+    current++;
+
+    if(current<questions.length){
+        load();
+    }else{
+        showProposal();
+    }
+}
+
+/* Proposal */
+
+function showProposal(){
+
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("proposal").classList.remove("hidden");
+}
+
+/* No Button */
+
+let noSize=1;
+
+function runAway(){
+
+    let btn=document.getElementById("noBtn");
+
+    let x=Math.random()*200-100;
+    let y=Math.random()*200-100;
+
+    noSize-=0.1;
+    if(noSize<0.4) noSize=0.4;
+
+    btn.style.transform=
+    `translate(${x}px,${y}px) scale(${noSize})`;
+}
+
+/* Extra Hearts */
+
+function startHearts(){
+
+    setInterval(()=>{
+
+        let heart=document.createElement("div");
+        heart.className="floating-heart";
+        heart.innerHTML="💖";
+
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.animationDuration=
+        (4+Math.random()*3)+"s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.remove();
+        },7000);
+
+    },300);
+}
+
+/* Yes */
+
+function yes(){
+
+    confetti({
+        particleCount:250,
+        spread:120,
+        origin:{y:0.5}
+    });
+
+    document.getElementById("proposal").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
+
+    startHearts();
+}
+
+</script>
+
+</body>
+</html>
